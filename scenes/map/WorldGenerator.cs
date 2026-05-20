@@ -293,13 +293,15 @@ namespace scenes.map {
 		) {
 
 			var tw = CreateTween().SetLoops(0);
+			float localIterations = iterations;
 			var growCallback = Callable.From(() => {
-				var grew = Region.GenerationAccessor.GrowAllRegionsOneStep(regions, occupied, world, rng, sea: sea, iterations: iterations);
+				var grew = Region.GenerationAccessor.GrowAllRegionsOneStep(regions, occupied, world, rng, sea: sea, iterations: (int)localIterations);
 				Regions = regions;
 				if (!grew) {
 					tw.EmitSignal(Tween.SignalName.Finished);
 					tw.Stop();
 				}
+				localIterations += localIterations * 0.07f;
 			});
 
 			tw.TweenCallback(growCallback);
