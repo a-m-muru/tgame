@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using scenes.ui;
 
 namespace scenes.region.ui;
 
@@ -10,12 +11,20 @@ public partial class Notification : Control {
 	[Export] ProgressBar timeProgress;
 	[Export] TextureRect gradientDisplay;
 	[Export] AnimationPlayer pulser;
+	[Export] Panel backgroundPanel;
 
 	public float TimeLimit { get; private set; }
 	public float Time { get; private set; }
 
+
 	public override void _Ready() {
 		dismissButton.Pressed += () => { if (!IsDismissing) Dismiss(); };
+		backgroundPanel.Modulate = new(backgroundPanel.Modulate, OptionsMenu.NotificationBackgroundAlpha);
+	}
+
+	public override void _Input(InputEvent @event) {
+		base._Input(@event);
+		backgroundPanel.Modulate = new(backgroundPanel.Modulate, OptionsMenu.NotificationBackgroundAlpha);
 	}
 
 	public Notification SetText(string text) {

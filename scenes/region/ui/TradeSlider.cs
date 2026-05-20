@@ -28,7 +28,8 @@ namespace scenes.region.ui {
 			offer = tradeOffer;
 
 			if (!myOffer) {
-				UnitsSlider.ValueChanged += OnSliderValueChanged;
+				UnitsSlider.ValueChanged += ValueChanged;
+				UnitsSlider.DragEnded += DragEnded;
 				ConfirmButton.Pressed += OnBought;
 
 				GiveLabel.Text = tradeOffer.OffererGivesRecipientSilver ? $"{tradeOffer.RecepientRequiredResourcesUnit.Type} x {tradeOffer.RecepientRequiredResourcesUnit.Amount}" : tradeOffer.RecipientPaidSilverUnit + " silver";
@@ -47,11 +48,11 @@ namespace scenes.region.ui {
 			}
 			RejectButton.Pressed += OnRejected;
 			ConfirmButton.Disabled = true;
-			OnSliderValueChanged(0);
+			ValueChanged(0);
 		}
 
-		void OnSliderValueChanged(double to) {
-			sliderVal = (int)to;
+		void ValueChanged(double to) {
+			sliderVal = Mathf.RoundToInt(to);
 			bool shouldDisable = sliderVal == 0;
 			if (offer.OffererGivesRecipientSilver) {
 				var m = offer.RecepientRequiredResourcesUnit.Multiply(sliderVal);
@@ -63,6 +64,14 @@ namespace scenes.region.ui {
 				ConfirmButton.Text = $"Buy ({offer.RecipientPaidSilverUnit * sliderVal}) => {mul.Type.AssetName} x {mul.Amount}";
 			}
 			ConfirmButton.Disabled = shouldDisable;
+		}
+
+		void DragEnded(bool changed) {
+			if (!changed) return;
+			float val = Mathf.RoundToInt(UnitsSlider.Value);
+			UnitsSlider.SetValueNoSignal(val);
+			//GD.Print($"TradeSlider::DragEnded : val {val} last {lastValue}");
+			//lastValue = val;
 		}
 
 		void OnBought() {
@@ -80,7 +89,6 @@ namespace scenes.region.ui {
 		}
 
 	}
-
 
 }
 

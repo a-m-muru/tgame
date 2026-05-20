@@ -1,7 +1,13 @@
 [gd_scene format=3 uid="uid://1mqtysebfbnc"]
 
 [ext_resource type="Script" uid="uid://bjmoqjwclj6os" path="res://scenes/region/ui/Notification.cs" id="1_05adb"]
-[ext_resource type="Material" uid="uid://cet7ep6cvqk3p" path="res://resources/visual/add_material.tres" id="2_plsdc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjs0n"]
+bg_color = Color(0.1882353, 0.21960784, 0.2627451, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="Gradient" id="Gradient_05adb"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.047058824)
@@ -53,7 +59,7 @@ _data = {
 &"pulse": SubResource("Animation_plsdc")
 }
 
-[node name="Control" type="MarginContainer" unique_id=328061595 node_paths=PackedStringArray("label", "dismissButton", "timeProgress", "gradientDisplay", "pulser")]
+[node name="Control" type="MarginContainer" unique_id=328061595 node_paths=PackedStringArray("label", "dismissButton", "timeProgress", "gradientDisplay", "pulser", "backgroundPanel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -65,9 +71,13 @@ dismissButton = NodePath("VBoxContainer/HBoxContainer/Button")
 timeProgress = NodePath("VBoxContainer/ProgressBar")
 gradientDisplay = NodePath("TextureRect")
 pulser = NodePath("Pulser")
+backgroundPanel = NodePath("ColorRect")
+
+[node name="ColorRect" type="Panel" parent="." unique_id=1423001113]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qjs0n")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1287363856]
-material = ExtResource("2_plsdc")
 layout_mode = 2
 texture = SubResource("GradientTexture2D_plsdc")
 
@@ -82,7 +92,13 @@ layout_mode = 2
 [node name="Label" type="RichTextLabel" parent="VBoxContainer/HBoxContainer" unique_id=12923646]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/normal_font_size = 8
+theme_override_colors/font_outline_color = Color(0.3882353, 0.4, 0.3882353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.15686275)
+theme_override_constants/shadow_outline_size = 3
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/normal_font_size = 10
 bbcode_enabled = true
 text = "text..."
 fit_content = true

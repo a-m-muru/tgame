@@ -165,3 +165,12 @@ Rünnakud. rünnak mingi teise ruudu vastu oleks problem, mida teine peaks lahen
 - [X] hide hud buttons on gameover
 - [X] build quarry wouhtout rocks..?
 - [ ] might not notice silver switches out
+
+**Fix**
+
+- [ ] rohkem ikoone, mida hoomata on pilgult kergem kui teksti;
+- [ ] ühtlustada elemendid nagu liugurid ja nupud, et nad töötaks ning visuaalselt oleks alati sarnased;
+- [ ] parendada elementide nagu märguannete nähtavust tausta kohal;
+- [ ] kiirendada tegevusi nagu tööliste määramine ning ehitiste asetamine;
+- [ ] kaubavahetuspakkumist tehes anda selgemalt märku, et hõbe on alati osa vahetuskaubast;
+- [ ] üldine õpetus, mis seletaks kasutajaliidese osi ning sõjapidamise liidest.

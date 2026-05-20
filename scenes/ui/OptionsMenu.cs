@@ -34,7 +34,7 @@ public class Option(Func<float> get, Action<float> set, float defa, (float, floa
 
 public partial class OptionsMenu : Control {
 
-	public static Action<bool> VisibilityToggled;
+	public static Action<bool> VisibilityToggled { get; set; }
 
 	const string USER_PATH = "user://fevered_world";
 	const string SAVEFILE_PATH = USER_PATH + "/options.ini";
@@ -52,6 +52,7 @@ public partial class OptionsMenu : Control {
 	}
 
 	static bool Open => singleton?.Visible ?? false;
+	public static float NotificationBackgroundAlpha { get; private set; }
 
 	static readonly Dictionary<string, Dictionary<string, Option>> options = new() {
 		{"volume",
@@ -93,6 +94,14 @@ public partial class OptionsMenu : Control {
 						Singleton.GetWindow().ContentScaleFactor = to;
 					},
 					defa: 2, range: (1, 4), round: true)
+				},
+				{"notification_background", new(
+					get: () => NotificationBackgroundAlpha,
+					set: to => {
+						Debug.Assert(to >= 0 && to <= 1);
+						NotificationBackgroundAlpha = to;
+					},
+					defa: 0f, range: (0, 1), round: false)
 				},
 			}
 		}
