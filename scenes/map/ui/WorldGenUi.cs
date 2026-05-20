@@ -144,6 +144,7 @@ public partial class WorldGenUi : MarginContainer {
 	async void OnGenRegionsPressed() {
 		Debug.Assert(!worldGenerator.Generating);
 		worldUI.SelectRegion(null);
+		worldUI.AnnullMap();
 		OnStartGenerating();
 
 		if (!drawFast || !OS.HasFeature("editor_runtime")) {

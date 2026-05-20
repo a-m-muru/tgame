@@ -275,4 +275,8 @@ public partial class WorldUI : Control {
 		worldRenderer.RegionSprite.Visible = to;
 	}
 
+	public void AnnullMap() {
+		map = null;
+	}
+
 }

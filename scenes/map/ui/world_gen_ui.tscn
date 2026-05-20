@@ -86,7 +86,6 @@ worldWidthSpinbox = NodePath("HBoxContainer/PanelContainer/MarginContainer/VBoxC
 worldHeightSpinbox = NodePath("HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Height")
 noiseScaleSpinbox = NodePath("HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NoiseScale")
 depthSpinbox = NodePath("HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/BaseDepth")
-drawFast = true
 backButton = NodePath("HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/BackButton")
 
 [node name="WorldGenerator" type="Node" parent="." unique_id=941712464]
