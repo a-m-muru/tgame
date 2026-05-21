@@ -309,6 +309,13 @@ size_flags_stretch_ratio = 4.0
 mode = 1
 metadata/_edit_group_ = true
 
+[node name="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(832899595, 2050218199) index="1" unique_id=22870912]
+visible = false
+
+[node name="WorldDisplay" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer/SubViewportContainer" parent_id_path=PackedInt32Array(832899595, 1399082485) index="0" unique_id=2007410222]
+size = Vector2i(260, 269)
+render_target_update_mode = 0
+
 [node name="Fat" type="Control" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5" unique_id=2081266303]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -502,3 +509,6 @@ volume_db = -20.0
 max_polyphony = 4
 script = ExtResource("14_igkl3")
 metadata/_custom_type_script = "uid://budv3jk6vkbdc"
+
+[editable path="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI"]
+[editable path="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ControlButtons"]
