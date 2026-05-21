@@ -58,7 +58,8 @@ layout_mode = 2
 [node name="DescriptionLabel" type="RichTextLabel" parent="DetailsContainer/MarginContainer2/VBoxContainer" unique_id=320137564]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 8
-text = "This is, in fact, trading"
+text = "Here is where you can send trade offers to other civilisations and accept theirs. Silver is used in every trade as currency.
+Your neighbors are more likely to accept your offers if you buy surplus from them or sell something they sorely need."
 fit_content = true
 tab_stops = PackedFloat32Array(5, 10)
 
