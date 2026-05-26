@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://bc6plc0ceu8uw" path="res://resources/game/resource_types/coconuts.tres" id="1_utkxo"]
 [ext_resource type="Script" uid="uid://bnfatrmjew0vy" path="res://resources/game/resource_site_types/ResourceWell.cs" id="3_hgost"]
 [ext_resource type="Script" uid="uid://ct2a6sqe1m7mx" path="res://resources/game/resource_site_types/ResourceSiteType.cs" id="4_6aij6"]
+[ext_resource type="Resource" uid="uid://dvs2hxocnip4n" path="res://resources/game/resource_types/crabs.tres" id="5_hgost"]
 
 [sub_resource type="Resource" id="Resource_6aij6"]
 script = ExtResource("1_j0leu")
@@ -32,13 +33,28 @@ script = ExtResource("3_hgost")
 resourceType = ExtResource("1_utkxo")
 minutesPerBunch = 200
 minutesPerBunchRegen = 17280
-initialBunches = 30
+initialBunches = 15
 Production = SubResource("Resource_f2iwy")
+metadata/_custom_type_script = "uid://bnfatrmjew0vy"
+
+[sub_resource type="Resource" id="Resource_d3fcb"]
+script = ExtResource("1_j0leu")
+Infinitive = "catch"
+Progressive = "catching"
+metadata/_custom_type_script = "uid://cbiuqlrd8yyxx"
+
+[sub_resource type="Resource" id="Resource_xq828"]
+script = ExtResource("3_hgost")
+resourceType = ExtResource("5_hgost")
+minutesPerBunch = 30
+minutesPerBunchRegen = 17280
+initialBunches = 15
+Production = SubResource("Resource_d3fcb")
 metadata/_custom_type_script = "uid://bnfatrmjew0vy"
 
 [resource]
 script = ExtResource("4_6aij6")
 name = "desert island"
-mineResources = Array[Object]([SubResource("Resource_hgost"), SubResource("Resource_j0leu")])
+mineResources = Array[Object]([SubResource("Resource_hgost"), SubResource("Resource_j0leu"), SubResource("Resource_xq828")])
 ScenePath = "uid://86f5k8lmus4o"
 metadata/_custom_type_script = "uid://ct2a6sqe1m7mx"
