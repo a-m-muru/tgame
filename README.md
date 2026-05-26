@@ -39,3 +39,8 @@ Peale repositooriumi kloonimist saab selle avada Godot' C# redaktoriga.
 
 Et mäng käima ka läheks, tuleb luua silbifailid, mille põhjal genereeritakse regioonide nimed. Selleks tuleb navigeerida kausta tools/silbitus ning jooksutada käsk `make`. Windowsil on selleks soovituslik kasutada mõnda MinGW keskkonda. Vajalikud on GNU Make, C kompilaator, iconv ning GNU Wget -- või üritus teha käsitsi sama asja, mida Makefile teeks.
 
+## Rohkem infot
+
+Loe lõputööd: [thesis.cs.ut.ee](https://thesis.cs.ut.ee/a02d0283-9f30-4df1-aba3-ec4613ebfe95)
+
+Võib-olla tuleb mäng kunagi välja itch.io keskkonnas (võib-olla mitte!): [murumart.itch.io](https://murumart.itch.io/)
