@@ -143,7 +143,7 @@ public partial class MapObjectMenu : Control {
 		}
 		jobInfoPanel.Show();
 		uint sliderMax = JobInfoPanel.GetSliderMax(ExtantJob, ui.GetMaxFreeWorkers());
-		jobInfoPanel.Display(ui, ExtantJob, 0, sliderMax, JobWorkerCountChanged);
+		jobInfoPanel.Display(ui, ExtantJob, 0, sliderMax, JobWorkerCountChanged, showHotkeys: true);
 	}
 
 	void DisplayMapObjectInfo() {
@@ -176,7 +176,7 @@ public partial class MapObjectMenu : Control {
 			}
 		} else if (myMapObject is ResourceSite r) {
 			titleLabel.Text = $"{r.Type.AssetName.Capitalize()} {(r.GlobalPosition - reg.WorldPosition)}";
-			sb.Append($"The {r.Type.AssetName} contains exploitable resources...\n");
+			sb.Append($"The {r.Type.AssetName} is a source of resources. It contains...\n");
 			bool reproduce = false;
 			foreach (var well in r.Wells) {
 				sb.Append($" * {well.ResourceType.AssetName} x {well.Bunches}\n");

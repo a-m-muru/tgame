@@ -1060,7 +1060,7 @@ public class GamerAI : LocalAI {
 				ephemeralActions.Add(Actions.RemoveJob(negativeFactors.ToArray(), factionActions, job));
 			}
 		}
-		// fuck every body
+		// warring
 		foreach (var n in factionActions.Region.Neighbors) {
 			if (!factionActions.Faction.IsAtWarWith(n.LocalFaction)) {
 				ephemeralActions.Add(Actions.DeclareWar([

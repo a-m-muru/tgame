@@ -30,14 +30,14 @@ public partial class JobInfoPanel : Control {
 		FocusOnJobButton.Pressed += JumpToJob;
 	}
 
-	public void Display(UI ui, Job job, int jobIndex, uint sliderMax, Action<int, float> workersSelected) {
+	public void Display(UI ui, Job job, int jobIndex, uint sliderMax, Action<int, float> workersSelected, bool showHotkeys = false) {
 		DisplayPreview(job);
 
 		this.ui = ui;
 		jobBox = job;
 		if (job.NeedsWorkers) {
 			Debug.Assert(sliderMax < 1000, $"Slider max value ({sliderMax}) overflowed probably");
-			workerCountSlider.Setup(workersSelected, jobIndex, job.Workers, "workers", sliderMax, "");
+			workerCountSlider.Setup(workersSelected, jobIndex, job.Workers, "workers", sliderMax, "", enableHotkeys: showHotkeys);
 			workerCountSlider.Show();
 		}
 		DeleteJobButton.Disabled = false;

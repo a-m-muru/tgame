@@ -2,14 +2,46 @@
 
 [ext_resource type="Script" uid="uid://bjia4lgqb45j5" path="res://scenes/region/ui/JobSlider.cs" id="1_elyht"]
 [ext_resource type="LabelSettings" uid="uid://teuhafm0mc0i" path="res://resources/visual/theme/label_styles/10px.tres" id="1_graa7"]
+[ext_resource type="LabelSettings" uid="uid://btwbnjxri1gdg" path="res://resources/visual/theme/label_styles/8px.tres" id="3_5eopb"]
 
-[node name="JobSlider" type="VBoxContainer" unique_id=1872956985 node_paths=PackedStringArray("NameLabel", "MoneyLabel", "Slider")]
+[sub_resource type="InputEventKey" id="InputEventKey_elyht"]
+device = -1
+keycode = 81
+unicode = 113
+
+[sub_resource type="InputEventKey" id="InputEventKey_0ven0"]
+device = -1
+shift_pressed = true
+keycode = 81
+unicode = 81
+
+[sub_resource type="Shortcut" id="Shortcut_0ven0"]
+events = [SubResource("InputEventKey_elyht"), SubResource("InputEventKey_0ven0")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_5eopb"]
+device = -1
+keycode = 69
+unicode = 101
+
+[sub_resource type="InputEventKey" id="InputEventKey_f8wsc"]
+device = -1
+shift_pressed = true
+keycode = 69
+unicode = 69
+
+[sub_resource type="Shortcut" id="Shortcut_5eopb"]
+events = [SubResource("InputEventKey_5eopb"), SubResource("InputEventKey_f8wsc")]
+
+[node name="JobSlider" type="VBoxContainer" unique_id=1872956985 node_paths=PackedStringArray("NameLabel", "MoneyLabel", "Slider", "AddRemoveHotkeys", "AddHotkey", "RemoveHotkey")]
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("1_elyht")
 NameLabel = NodePath("HBoxContainer/Label")
 MoneyLabel = NodePath("HBoxContainer/Label2")
 Slider = NodePath("HSlider")
+AddRemoveHotkeys = NodePath("AdditionHotkey")
+AddHotkey = NodePath("AdditionHotkey/Add1")
+RemoveHotkey = NodePath("AdditionHotkey/Remove1")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1277092894]
 layout_mode = 2
@@ -37,3 +69,28 @@ focus_mode = 0
 step = 0.01
 scrollable = false
 ticks_position = 3
+
+[node name="Label" type="Label" parent="." unique_id=974875598]
+layout_mode = 2
+text = "Drag to assign"
+label_settings = ExtResource("3_5eopb")
+
+[node name="AdditionHotkey" type="HBoxContainer" parent="." unique_id=850288366]
+layout_mode = 2
+alignment = 2
+
+[node name="Fat" type="Control" parent="AdditionHotkey" unique_id=671640325]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Remove1" type="Button" parent="AdditionHotkey" unique_id=274794870]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+shortcut = SubResource("Shortcut_0ven0")
+text = "-1 (q)"
+
+[node name="Add1" type="Button" parent="AdditionHotkey" unique_id=870962650]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+shortcut = SubResource("Shortcut_5eopb")
+text = "+1 (e)"
