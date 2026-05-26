@@ -6,16 +6,18 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4rrfw"]
 
-[node name="Jobs" type="VBoxContainer" unique_id=207157808 node_paths=PackedStringArray("jobsContainer", "infoLabel")]
+[node name="Jobs" type="VBoxContainer" unique_id=207157808 node_paths=PackedStringArray("jobsContainer", "infoLabel", "CloseButton")]
 custom_minimum_size = Vector2(300, 280)
 theme_override_constants/separation = 0
 script = ExtResource("1_4rrfw")
 infopanelScene = ExtResource("1_747j8")
 jobsContainer = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer/CurrentArrangements/Box")
 infoLabel = NodePath("PanelContainer/MarginContainer/VBoxContainer/InfoLabel")
+CloseButton = NodePath("HBoxContainer/CloseButotn")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=383365566]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=2000854201]
 layout_mode = 2
@@ -29,6 +31,11 @@ theme_override_constants/margin_right = 2
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer" unique_id=1816412975]
 layout_mode = 2
 text = "Jobs"
+
+[node name="CloseButotn" type="Button" parent="HBoxContainer" unique_id=2140482035]
+layout_mode = 2
+focus_mode = 0
+text = "X"
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1839175678]
 layout_mode = 2

@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c7u2mvpm3cpkx" path="res://scenes/region/ui/Notifications.cs" id="4_o0d6a"]
 [ext_resource type="PackedScene" uid="uid://1mqtysebfbnc" path="res://scenes/region/ui/notification.tscn" id="5_mgrsp"]
 [ext_resource type="LabelSettings" uid="uid://ddruam7fh1y7l" path="res://resources/visual/theme/label_styles/title.tres" id="5_u27i7"]
+[ext_resource type="Script" uid="uid://ce2uh2qemuy7i" path="res://scenes/region/ui/TabMenu.cs" id="10_igkl3"]
 [ext_resource type="PackedScene" uid="uid://d1tbr5mkayrjf" path="res://scenes/region/ui/jobs_list.tscn" id="10_v1o57"]
 [ext_resource type="PackedScene" uid="uid://b311cvqibnmx0" path="res://scenes/region/ui/trade_info_panel.tscn" id="11_3haic"]
 [ext_resource type="PackedScene" uid="uid://oq1d8aheub65" path="res://scenes/map/ui/world_ui.tscn" id="12_igkl3"]
@@ -74,7 +75,7 @@ unicode = 98
 [sub_resource type="Shortcut" id="Shortcut_3haic"]
 events = [SubResource("InputEventKey_nqtah")]
 
-[node name="Ui" type="MarginContainer" unique_id=948088031 node_paths=PackedStringArray("bottomBarButtonParent", "buildButton", "agreementsButton", "jobsButton", "tradeButton", "worldButton", "warButton", "menuTabs", "buildingList", "documentsDisplay", "jobsList", "tradeInfoPanel", "worldUI", "warInfoPanel", "mopjectMenu", "resourceDisplay", "pauseDisplayPanel", "controlButtons", "resourceLabel", "announcementOkayButton", "announcementText", "announcementTitle", "announcementParent", "Notifications")]
+[node name="Ui" type="MarginContainer" unique_id=948088031 node_paths=PackedStringArray("bottomBarButtonParent", "buildButton", "agreementsButton", "jobsButton", "tradeButton", "worldButton", "warButton", "menuTabs", "buildingList", "jobsList", "tradeInfoPanel", "worldUI", "warInfoPanel", "mopjectMenu", "resourceDisplay", "pauseDisplayPanel", "controlButtons", "resourceLabel", "announcementOkayButton", "announcementText", "announcementTitle", "announcementParent", "Notifications")]
 z_index = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,7 +97,6 @@ worldButton = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/ControlButto
 warButton = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/ControlButtons/VBoxContainer5/WarButton")
 menuTabs = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs")
 buildingList = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer/BuildMenu")
-documentsDisplay = NodePath("")
 jobsList = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer3/Jobs")
 tradeInfoPanel = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer4/TradeInfopanel")
 worldUI = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI")
@@ -269,9 +269,10 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="TradeInfopanel" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer4" unique_id=1237886106 instance=ExtResource("11_3haic")]
+[node name="TradeInfopanel" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer4" unique_id=1237886106 node_paths=PackedStringArray("ui") instance=ExtResource("11_3haic")]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
+ui = NodePath("../../../../../..")
 
 [node name="Fat" type="Control" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer4" unique_id=1943206376]
 layout_mode = 2
@@ -292,7 +293,35 @@ size_flags_stretch_ratio = 4.0
 mode = 1
 metadata/_edit_group_ = true
 
-[node name="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(832899595, 2050218199) index="1" unique_id=22870912]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(832899595, 2050218199) index="0" unique_id=910341795]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseButton" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer/Label" parent_id_path=PackedInt32Array(832899595, 671302167) index="0" unique_id=1361676791]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.96700007
+anchor_top = 1.0
+anchor_right = 0.99500006
+anchor_bottom = 1.1333333
+offset_left = -0.06402588
+offset_top = -19.0
+offset_right = -0.040039063
+offset_bottom = -4.0
+text = "X"
+metadata/_edit_use_anchors_ = true
+
+[node name="FakeTabMenuy" type="Container" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer/Label" parent_id_path=PackedInt32Array(832899595, 671302167) index="1" unique_id=284964522 node_paths=PackedStringArray("CloseButton", "ui")]
+layout_mode = 0
+offset_left = -49.0
+offset_top = 1.0
+offset_right = -9.0
+offset_bottom = 41.0
+script = ExtResource("10_igkl3")
+CloseButton = NodePath("../CloseButton")
+ui = NodePath("../../../../../../../../../../..")
+
+[node name="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(832899595, 2050218199) index="2" unique_id=22870912]
 visible = false
 
 [node name="WorldDisplay" parent="VBoxContainer2/HBoxContainer/VBoxContainer2/MenuTabs/HBoxContainer5/WorldUI/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/PanelContainer/SubViewportContainer" parent_id_path=PackedInt32Array(832899595, 1399082485) index="0" unique_id=2007410222]

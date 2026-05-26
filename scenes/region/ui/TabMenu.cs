@@ -2,7 +2,7 @@ using Godot;
 
 namespace scenes.region.ui;
 
-public partial class TabMenu : Control {
+public partial class TabMenu : Container {
 
 	[Export] Button CloseButton;
 	[Export] protected UI ui;

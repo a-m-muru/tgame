@@ -6,9 +6,8 @@ using scenes.ui;
 
 namespace scenes.region.ui;
 
-public partial class WarInfoPanel : VBoxContainer {
+public partial class WarInfoPanel : TabMenu {
 
-	[Export] UI ui;
 	[Export] Label tutorialLabel;
 
 	[Export] Container ongoingOperationsParent;
@@ -36,6 +35,7 @@ public partial class WarInfoPanel : VBoxContainer {
 
 
 	public override void _Ready() {
+		base._Ready();
 		essayPrompt.WarDeclared += EssaySubmitted;
 		aggressionAdjustmentButton.Pressed += AggressionAdjustmentPressed;
 		attackStartButton.Pressed += OnAttackStartPressed;

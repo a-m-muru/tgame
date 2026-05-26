@@ -55,7 +55,6 @@ public partial class UI : Control {
 	public enum Tab : int {
 		None = -1, // because TabContainer -1 = none selected
 		Build,
-		Documents,
 		Jobs,
 		Trade,
 		World,
@@ -183,9 +182,6 @@ public partial class UI : Control {
 			case Tab.Build:
 				buildingList.Update();
 				buildingList.Show();
-				break;
-			case Tab.Documents:
-				documentsDisplay.Display(GetBriefcase());
 				break;
 			case Tab.Jobs:
 				jobsList.Display();
@@ -393,9 +389,6 @@ public partial class UI : Control {
 	}
 
 	public void HourlyUpdate(TimeT timeInMinutes) {
-		if (menuTabs.CurrentTab == (int)Tab.Documents) {
-			documentsDisplay.Display();
-		}
 	}
 
 	public void OnLeftMouseClick(Vector2 position, Vector2I tilePosition) {

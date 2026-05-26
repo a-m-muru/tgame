@@ -4,11 +4,10 @@ using Godot;
 
 namespace scenes.region.ui;
 
-public partial class JobsList : VBoxContainer {
+public partial class JobsList : TabMenu {
 
 	[Export] PackedScene infopanelScene;
 
-	[Export] UI ui;
 	[Export] Container jobsContainer;
 	[Export] Label infoLabel;
 

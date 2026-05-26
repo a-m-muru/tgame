@@ -8,7 +8,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jmbgv"]
 content_margin_left = 2.0
 
-[node name="TradeInfopanel" type="VBoxContainer" unique_id=1096857961 node_paths=PackedStringArray("PartnerList", "DescriptionLabel", "NoPartnersLabel", "PartnersDisplayParent")]
+[node name="TradeInfopanel" type="VBoxContainer" unique_id=1096857961 node_paths=PackedStringArray("PartnerList", "DescriptionLabel", "NoPartnersLabel", "PartnersDisplayParent", "CloseButton")]
 custom_minimum_size = Vector2(0, 240)
 offset_right = 167.0
 offset_bottom = 77.0
@@ -21,9 +21,11 @@ DescriptionLabel = NodePath("DetailsContainer/MarginContainer2/VBoxContainer/Des
 NoPartnersLabel = NodePath("DetailsContainer/MarginContainer2/VBoxContainer/TradeList/NoPartnersLabel")
 PartnersDisplayParent = NodePath("DetailsContainer/MarginContainer2/VBoxContainer/TradeList/TradePartnerDisplay/PartnersDisplayParent")
 PartnerDisplay = ExtResource("2_5nogp")
+CloseButton = NodePath("InfoHeader/CloseButotn")
 
 [node name="InfoHeader" type="HBoxContainer" parent="." unique_id=1402123397]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="InfoHeader" unique_id=1477946497]
 layout_mode = 2
@@ -40,6 +42,10 @@ size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_jmbgv")
 text = "Trade"
 horizontal_alignment = 1
+
+[node name="CloseButotn" type="Button" parent="InfoHeader" unique_id=1285857130]
+layout_mode = 2
+text = "X"
 
 [node name="DetailsContainer" type="PanelContainer" parent="." unique_id=1212307028]
 layout_mode = 2
