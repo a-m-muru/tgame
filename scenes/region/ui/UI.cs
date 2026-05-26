@@ -17,7 +17,7 @@ public partial class UI : Control {
 
 	// one big script to rule all region ui interactions
 
-	public event Action<Vector2I> MapClickEvent;
+	public event Func<Vector2I, bool> MapClickEvent;
 
 	public event Func<IBuildingType, Vector2I, bool> RequestBuildEvent;
 	public event Func<IBuildingType, bool> GetHasBuildingMaterialsEvent;
@@ -116,6 +116,7 @@ public partial class UI : Control {
 			_state = value;
 			OnStateChanged(old, value);
 			//Debug.PrintWithStack("UI: state changed to", value);
+			//GD.Print("UI: state is ", value);
 		}
 	}
 
@@ -372,16 +373,31 @@ public partial class UI : Control {
 
 	// utilities
 
-	void Escape() { // this isnt called anywhere`? TODO
+	void Escape() {
 		switch (state) {
 			case State.ChoosingBuild:
-				state = State.PlacingBuild;
+				state = State.Idle;
 				break;
 			case State.PlacingBuild:
+				if (buildingList.SelectedBuildingType != null) {
+					state = State.ChoosingBuild;
+					SelectTab(Tab.Build);
+				} else {
+					state = State.Idle;
+				}
+				break;
 			case State.MapObjectMenu:
+				state = State.Idle;
+				break;
 			case State.JobsMenu:
+				state = State.Idle;
+				break;
 			case State.TradeMenu:
+				state = State.Idle;
+				break;
 			case State.WorldMenu:
+				state = State.Idle;
+				break;
 			case State.WarMenu:
 				state = State.Idle;
 				break;
@@ -394,18 +410,12 @@ public partial class UI : Control {
 	public void OnLeftMouseClick(Vector2 position, Vector2I tilePosition) {
 		switch (state) {
 			case State.PlacingBuild:
+				if (MapClick(tilePosition)) break;
 				RequestBuild(buildingList.SelectedBuildingType, tilePosition);
-				// if (RequestBuild(buildingList.SelectedBuildingType, tilePosition) && !Input.IsKeyPressed(Key.Alt)) {
-				// 	state = State.Idle;
-				// }
 				break;
 			case State.Idle:
 				MapClick(tilePosition);
 				break;
-			// case State.MapObjectMenu:
-			// 	state = State.Idle;
-			// 	MapClick(tilePosition);
-			// 	break;
 			case State.WarMenu:
 				warInfoPanel.Click(tilePosition + GetFactionActions().Region.WorldPosition);
 				break;
@@ -425,26 +435,25 @@ public partial class UI : Control {
 	}
 
 	public void OnBuildingClicked(Building building) {
-		Debug.Assert(state == State.Idle, "Can't click on buildings outside of idle state");
+		Debug.Assert(state == State.Idle || state == State.PlacingBuild, "Can't click on buildings outside of idle or pressiung build state");
 		state = State.MapObjectMenu;
 		mopjectMenu.Open(building);
 	}
 
 	public void OnResourceSiteClicked(ResourceSite resourceSite) {
 		Debug.Assert(resourceSite is not null);
-		Debug.Assert(state == State.Idle, "Can't click on resourceSite outside of idle state");
+		if (state != State.Idle) return;
 		state = State.MapObjectMenu;
 		mopjectMenu.Open(resourceSite);
 	}
 
 	public void OnProblemClicked(Problem problem) {
-		Debug.Assert(state == State.Idle, "Can't click on problem outside of idle state");
 		state = State.MapObjectMenu;
 		mopjectMenu.Open(problem);
 	}
 
 	public void OnAttackedTileClicked(Vector2I tile) {
-		Debug.Assert(state == State.Idle, "Can't click on attacking outside of idle state");
+		if (state != State.Idle) return;
 		state = State.WarMenu;
 		SelectTab(Tab.War);
 		warInfoPanel.Display(GetFactionActions().Faction);
@@ -455,16 +464,13 @@ public partial class UI : Control {
 	void OnStateChanged(State old, State current) {
 		if (old != current) {
 			if (old == State.ChoosingBuild) {
-				if (current == State.PlacingBuild) {
-
-				} else {
+				if (current != State.PlacingBuild) {
 					buildingList.Reset();
 					SelectTab(Tab.None);
 					controlButtons.SetTimeSpeedAlteringAllowed(true);
 					if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 				}
-			}
-			if (old == State.PlacingBuild) {
+			} else if (old == State.PlacingBuild) {
 				if (current != State.ChoosingBuild) {
 					SelectTab(Tab.None);
 				}
@@ -472,18 +478,25 @@ public partial class UI : Control {
 				buildingList.SetBuildCursor(null);
 				controlButtons.SetTimeSpeedAlteringAllowed(true);
 				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
-			}
-			if (old == State.MapObjectMenu) {
+			} else if (old == State.MapObjectMenu) {
 				mopjectMenu.Close();
+				SelectTab(Tab.None);
 				controlButtons.SetTimeSpeedAlteringAllowed(true);
 				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 				TileDeselectedEvent?.Invoke();
-			}
-			if (old == State.WarMenu) {
+			} else if (old == State.WarMenu) {
 				SelectTab(Tab.None);
 				controlButtons.SetTimeSpeedAlteringAllowed(true);
 				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 				warInfoPanel.Undisplay();
+			} else if (old == State.JobsMenu) {
+				SelectTab(Tab.None);
+			} else if (old == State.TradeMenu) {
+				SelectTab(Tab.None);
+			} else if (old == State.WarMenu) {
+				SelectTab(Tab.None);
+			} else if (old == State.WorldMenu) {
+				SelectTab(Tab.None);
 			}
 		}
 		if (current == State.ChoosingBuild
@@ -518,7 +531,7 @@ public partial class UI : Control {
 		warButton.Hide();
 	}
 
-	public void MapClick(Vector2I tile) => MapClickEvent?.Invoke(tile);
+	public bool MapClick(Vector2I tile) => MapClickEvent?.Invoke(tile) ?? false;
 
 	public bool RequestBuild(IBuildingType a, Vector2I b) => RequestBuildEvent?.Invoke(a, b) ?? false;
 	public bool GetHasBuildingMaterials(IBuildingType btype) => GetHasBuildingMaterialsEvent?.Invoke(btype) ?? false;
@@ -527,7 +540,9 @@ public partial class UI : Control {
 	public ResourceStorage GetResources() => GetResourcesEvent?.Invoke();
 	public FactionActions GetFactionActions() => GetFactionActionsEvent?.Invoke();
 	public (float Food, float Usage) GetFoodAndUsage() => GetFoodAndUsageEvent?.Invoke() ?? (1337, 1337);
-	public void TileSelected(Vector2I place) => TileSelectedEvent?.Invoke(place);
+	public void TileSelected(Vector2I place) {
+		if (state != State.PlacingBuild) TileSelectedEvent?.Invoke(place);
+	}
 
 	public Job GetMapObjectJob(MapObject mapObject) => GetMapObjectJobEvent?.Invoke(mapObject);
 	public IEnumerable<Job> GetJobs() => GetJobsEvent?.Invoke();

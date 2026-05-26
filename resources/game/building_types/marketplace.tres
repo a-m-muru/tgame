@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("4_ufcck")
 name = "marketplace"
-description = "Trading with other civilisations occurs here."
+description = "This building is required to trade with other civilisations. See more details in the TRADE menu."
 ResourceCosts = Dictionary[Object, int]({
 ExtResource("3_ju1dh"): 4,
 ExtResource("2_u6rkk"): 4

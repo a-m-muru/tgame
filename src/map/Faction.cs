@@ -305,6 +305,7 @@ public class Faction : IEntity {
 	}
 
 	public bool HasBuildingMaterials(IBuildingType type) {
+		Debug.Assert(type is not null, "buiolding type mustn't be null");
 		return resourceStorage.HasEnough(type.GetConstructionResources());
 	}
 

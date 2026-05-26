@@ -199,18 +199,22 @@ public partial class PlayerRegion : Node {
 
 	// map clicks
 
-	void MapClick(Vector2I tile) {
+	bool MapClick(Vector2I tile) {
 		if (faction.HasProblem(tile)) {
 			ui.OnProblemClicked(faction.GetProblem(tile));
 			ui.TileSelected(tile);
+			return true;
 		} else if (faction.HasBuilding(tile)) {
 			ui.OnBuildingClicked(faction.GetBuilding(tile));
 			ui.TileSelected(tile);
+			return true;
 		} else if (region.HasMapObject(tile, out MapObject mop) && mop is ResourceSite resourceSite) {
 			ui.OnResourceSiteClicked(resourceSite);
 			ui.TileSelected(tile);
+			return true;
 		} else if (faction.IsAttacking(tile)) {
 			ui.OnAttackedTileClicked(tile);
+			return true;
 		} else if (!region.GetGroundTile(tile, out _)) {
 			// DEBUG annex
 			//foreach (var ne in region.Neighbors) {
@@ -224,7 +228,9 @@ public partial class PlayerRegion : Node {
 			//		break;
 			//	}
 			//}
+			//return true
 		}
+		return false;
 	}
 
 	// displaying
