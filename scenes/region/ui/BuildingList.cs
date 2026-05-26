@@ -11,11 +11,30 @@ using static Building;
 
 namespace scenes.region.ui;
 
-public partial class BuildingList : Control {
+public partial class BuildingList : TabMenu {
 
-	[Export] UI ui;
+	static readonly BuildingType[] ORDER = [
+		(BuildingType)Registry.BuildingsS.GrainField,
+		(BuildingType)Registry.BuildingsS.LogCabin,
+		(BuildingType)Registry.BuildingsS.Marketplace,
+		(BuildingType)Registry.BuildingsS.Sawmill,
+		(BuildingType)Registry.BuildingsS.Housing,
+		(BuildingType)Registry.BuildingsS.Quarry,
+		(BuildingType)Registry.BuildingsS.Well,
+		(BuildingType)Registry.BuildingsS.Windmill,
+		(BuildingType)Registry.BuildingsS.Carpentry,
+		(BuildingType)Registry.BuildingsS.MudPit,
+		(BuildingType)Registry.BuildingsS.Kiln,
+		(BuildingType)Registry.BuildingsS.BrickHousing,
+		(BuildingType)Registry.BuildingsS.Bakery,
+		(BuildingType)Registry.BuildingsS.CharcoalPit,
+		(BuildingType)Registry.BuildingsS.Bloomeries,
+		(BuildingType)Registry.BuildingsS.Smithy,
+		(BuildingType)Registry.BuildingsS.Tower,
+		(BuildingType)Registry.BuildingsS.Barracks,
+	];
+
 	[Export] ItemList itemList;
-	[Export] Button buildConfirmation;
 	[Export] RichTextLabel descriptionText;
 	[Export] RichTextLabel resourceListText;
 
@@ -35,9 +54,9 @@ public partial class BuildingList : Control {
 
 
 	public override void _Ready() {
+		base._Ready();
 		itemList.ItemActivated += OnBuildThingConfirmed;
 		itemList.ItemSelected += OnBuildThingSelected;
-		buildConfirmation.Pressed += OnBuildThingConfirmed;
 	}
 
 	public override void _GuiInput(InputEvent evt) {
@@ -47,10 +66,8 @@ public partial class BuildingList : Control {
 	}
 
 	void OnBuildThingSelected(long which) {
-		buildConfirmation.Disabled = false;
 		selectedBuildThingId = which;
 		var btype = (BuildingType)itemList.GetItemMetadata((int)which).Obj;
-		buildConfirmation.Text = "Build " + btype.AssetName;
 		var desc = new StringBuilder();
 		if (btype.GetPopulationCapacity() > 0) desc.Append($"+ {btype.GetPopulationCapacity()} population cap\n");
 		if (btype.GetMilitaryBoost() > 0) desc.Append($"+ {btype.GetMilitaryBoost()} military\n");
@@ -58,14 +75,18 @@ public partial class BuildingList : Control {
 		descriptionText.Text = desc.ToString();
 		resourceListText.Text = "";
 		var resources = ui.GetResources();
+		bool requiresMaterials = false;
 		foreach (var r in btype.GetConstructionResources()) {
+			requiresMaterials = true;
 			var str = r.ToString();
 			if (!resources.HasEnough(r)) {
 				str = $"[color={Palette.BrownRust.ToHtml()}]" + str + "[/color]";
-				buildConfirmation.Disabled = true;
 			}
 			resourceListText.AppendText(str + '\n');
 		}
+		if (!requiresMaterials) resourceListText.Text = "this building requires\nno materials to build";
+
+		OnBuildThingConfirmed(selectedBuildThingId);
 	}
 
 	void OnBuildThingConfirmed() {
@@ -77,8 +98,7 @@ public partial class BuildingList : Control {
 		var btype = (BuildingType)itemList.GetItemMetadata((int)which).Obj;
 		if (!ui.GetHasBuildingMaterials(btype)) return;
 		SetBuildCursor(btype);
-		selectedBuildThingId = -1;
-		ui.SelectTab(UI.Tab.None);
+		//selectedBuildThingId = -1;
 	}
 
 	public void SetBuildCursor(IBuildingType buildingType) {
@@ -87,14 +107,18 @@ public partial class BuildingList : Control {
 				selectedBuildingScene.QueueFree();
 				SelectedBuildingType = null;
 			}
-			selectedBuildingScene = null;
 			SelectedBuildingType = null;
+			selectedBuildingScene = null;
 			return;
+		} else {
+			if (IsInstanceValid(selectedBuildingScene) && !selectedBuildingScene.IsQueuedForDeletion()) selectedBuildingScene.QueueFree();
+			selectedBuildingScene = null;
 		}
 		Debug.Assert(buildingType != null, "Buuldint type canät be null here....w aht...");
 		Debug.Assert(ui.GetHasBuildingMaterials(buildingType), "can't build this...");
 		var scene = MapObjectView.MakeDisplay(DataStorage.GetScenePath(buildingType), buildingType);
 		Debug.Assert(scene != null, "building display scene canät be null here....w aht...");
+
 		ui.Camera.Cursor.AddChild(scene);
 		selectedBuildingScene = scene;
 		SelectedBuildingType = buildingType;
@@ -114,30 +138,30 @@ public partial class BuildingList : Control {
 
 	public void Update() {
 		itemList.Clear();
-		var items = ui.GetBuildingTypes().AsEnumerable().ToList();
-		items.Sort((i, j) => ui.GetHasBuildingMaterials(j).CompareTo(ui.GetHasBuildingMaterials(i)));
-		foreach (var buildingType in items) {
+		var items = ORDER.ToList();
+		var canmake = items.Where(j => ui.GetHasBuildingMaterials(j));
+		var cantmake = items.Where(j => !ui.GetHasBuildingMaterials(j));
+		foreach (var buildingType in canmake) {
 			int ix = itemList.AddItem(buildingType.AssetName);
 			// storing buildingtype references locally so if we happen to update the buildingtypes list
 			// in between calls here, we should still get the correct buildings that the visual
 			// ItemList was set up with
 			itemList.SetItemMetadata(ix, Variant.CreateFrom(buildingType));
+			itemList.SetItemCustomFgColor(ix, Palette.WhiteSmoke);
+			itemList.SetItemCustomBgColor(ix, new(Palette.LunarGreen, 0.75f));
+		}
+		foreach (var buildingType in cantmake) {
+			int ix = itemList.AddItem(buildingType.AssetName);
+			itemList.SetItemMetadata(ix, Variant.CreateFrom(buildingType));
 			itemList.SetItemCustomFgColor(ix, Palette.StormDust);
-			if (ui.GetHasBuildingMaterials(buildingType)) {
-				itemList.SetItemCustomFgColor(ix, Palette.WhiteSmoke);
-				itemList.SetItemCustomBgColor(ix, new(Palette.LunarGreen, 0.75f));
-			}
 		}
 	}
 
 	public void Reset() {
 		selectedBuildThingId = -1;
-		buildConfirmation.Disabled = true;
-		buildConfirmation.Text = "select";
 		resourceListText.Text = "";
 		descriptionText.Text = "";
 		itemList.Clear();
 	}
-
 
 }

@@ -66,16 +66,25 @@ public static class Registry {
 
 	public static class BuildingsS {
 
-		public static readonly IBuildingType LogCabin = Buildings.GetAsset("log_cabin");
-		public static readonly IBuildingType Housing = Buildings.GetAsset("housing");
-		public static readonly IBuildingType BrickHousing = Buildings.GetAsset("brick_housing");
-
-		public static readonly IBuildingType Kiln = Buildings.GetAsset("kiln");
-		public static readonly IBuildingType Marketplace = Buildings.GetAsset("marketplace");
 		public static readonly IBuildingType GrainField = Buildings.GetAsset("grain_field");
+		public static readonly IBuildingType LogCabin = Buildings.GetAsset("log_cabin");
+		public static readonly IBuildingType Sawmill = Buildings.GetAsset("sawmill");
+		public static readonly IBuildingType Marketplace = Buildings.GetAsset("marketplace");
+		public static readonly IBuildingType Housing = Buildings.GetAsset("housing");
+		public static readonly IBuildingType Well = Buildings.GetAsset("well");
 		public static readonly IBuildingType Windmill = Buildings.GetAsset("windmill");
-		public static readonly IBuildingType Bakery = Buildings.GetAsset("bakery");
+		public static readonly IBuildingType Carpentry = Buildings.GetAsset("carpentry");
 		public static readonly IBuildingType Quarry = Buildings.GetAsset("quarry");
+		public static readonly IBuildingType MudPit = Buildings.GetAsset("mud_pit");
+		public static readonly IBuildingType Kiln = Buildings.GetAsset("kiln");
+		public static readonly IBuildingType BrickHousing = Buildings.GetAsset("brick_housing");
+		public static readonly IBuildingType Bakery = Buildings.GetAsset("bakery");
+		public static readonly IBuildingType CharcoalPit = Buildings.GetAsset("charcoal_pit");
+		public static readonly IBuildingType Bloomeries = Buildings.GetAsset("bloomeries");
+		public static readonly IBuildingType Smithy = Buildings.GetAsset("smithy");
+		public static readonly IBuildingType Tower = Buildings.GetAsset("tower");
+		public static readonly IBuildingType Barracks = Buildings.GetAsset("barracks");
+
 
 		static IAssetGroup<IBuildingType, int> housingBuildings = null;
 		public static IAssetGroup<IBuildingType, int> HousingBuildings {

@@ -3,18 +3,19 @@
 [ext_resource type="Script" uid="uid://2xhwk4iyfu73" path="res://scenes/region/ui/BuildingList.cs" id="1_78e78"]
 [ext_resource type="StyleBox" uid="uid://bvafrlmq6sivc" path="res://resources/visual/theme/sb_lighter.tres" id="2_r2ht2"]
 
-[node name="BuildMenu" type="VBoxContainer" unique_id=1956105093 node_paths=PackedStringArray("itemList", "buildConfirmation", "descriptionText", "resourceListText")]
+[node name="BuildMenu" type="VBoxContainer" unique_id=1956105093 node_paths=PackedStringArray("itemList", "descriptionText", "resourceListText", "CloseButton")]
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 alignment = 2
 script = ExtResource("1_78e78")
 itemList = NodePath("BuildingList/MarginContainer/HBoxContainer2/VBoxContainer/BuildMenuList")
-buildConfirmation = NodePath("BuildingList/MarginContainer/HBoxContainer2/VBoxContainer/BuildMenuConfirmation")
 descriptionText = NodePath("BuildingList/MarginContainer/HBoxContainer2/VBoxContainer/Description")
 resourceListText = NodePath("BuildingList/MarginContainer/HBoxContainer2/VBoxContainer2/ResourceList")
+CloseButton = NodePath("HBoxContainer/CloseButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1520222375]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1520407133]
 layout_mode = 2
@@ -28,6 +29,11 @@ theme_override_constants/margin_right = 2
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer" unique_id=834659089]
 layout_mode = 2
 text = "What to build?"
+
+[node name="CloseButton" type="Button" parent="HBoxContainer" unique_id=848644438]
+layout_mode = 2
+focus_mode = 0
+text = "x"
 
 [node name="BuildingList" type="PanelContainer" parent="." unique_id=1838821174]
 custom_minimum_size = Vector2(170, 230)
@@ -58,7 +64,6 @@ focus_mode = 0
 theme_override_styles/panel = ExtResource("2_r2ht2")
 allow_search = false
 item_count = 9
-max_columns = 2
 same_column_width = true
 item_0/text = "Housing"
 item_1/text = "Well"
@@ -69,12 +74,6 @@ item_5/text = "dfgsh"
 item_6/text = "sdfgst"
 item_7/text = "wwerwer"
 item_8/text = "erhserherh"
-
-[node name="BuildMenuConfirmation" type="Button" parent="BuildingList/MarginContainer/HBoxContainer2/VBoxContainer" unique_id=1291213956]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "select"
 
 [node name="Description" type="RichTextLabel" parent="BuildingList/MarginContainer/HBoxContainer2/VBoxContainer" unique_id=1303932614]
 layout_mode = 2

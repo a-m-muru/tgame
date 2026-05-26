@@ -46,7 +46,6 @@ public partial class UI : Control {
 		ChoosingBuild,
 		PlacingBuild,
 		MapObjectMenu,
-		AgreementsMenu,
 		JobsMenu,
 		TradeMenu,
 		WorldMenu,
@@ -125,7 +124,6 @@ public partial class UI : Control {
 
 	public override void _Ready() {
 		buildButton.Pressed += () => OnTabButtonPressed(Tab.Build, State.ChoosingBuild);
-		agreementsButton.Pressed += () => OnTabButtonPressed(Tab.Documents, State.AgreementsMenu);
 		jobsButton.Pressed += () => OnTabButtonPressed(Tab.Jobs, State.JobsMenu);
 		tradeButton.Pressed += () => OnTabButtonPressed(Tab.Trade, State.TradeMenu);
 		worldButton.Pressed += () => OnTabButtonPressed(Tab.World, State.WorldMenu);
@@ -378,12 +376,13 @@ public partial class UI : Control {
 
 	// utilities
 
-	void Escape() {
+	void Escape() { // this isnt called anywhere`? TODO
 		switch (state) {
-			case State.PlacingBuild:
 			case State.ChoosingBuild:
+				state = State.PlacingBuild;
+				break;
+			case State.PlacingBuild:
 			case State.MapObjectMenu:
-			case State.AgreementsMenu:
 			case State.JobsMenu:
 			case State.TradeMenu:
 			case State.WorldMenu:
@@ -402,9 +401,10 @@ public partial class UI : Control {
 	public void OnLeftMouseClick(Vector2 position, Vector2I tilePosition) {
 		switch (state) {
 			case State.PlacingBuild:
-				if (RequestBuild(buildingList.SelectedBuildingType, tilePosition) && !Input.IsKeyPressed(Key.Alt)) {
-					state = State.Idle;
-				}
+				RequestBuild(buildingList.SelectedBuildingType, tilePosition);
+				// if (RequestBuild(buildingList.SelectedBuildingType, tilePosition) && !Input.IsKeyPressed(Key.Alt)) {
+				// 	state = State.Idle;
+				// }
 				break;
 			case State.Idle:
 				MapClick(tilePosition);
@@ -462,12 +462,19 @@ public partial class UI : Control {
 	void OnStateChanged(State old, State current) {
 		if (old != current) {
 			if (old == State.ChoosingBuild) {
-				buildingList.Reset();
-				SelectTab(Tab.None);
-				controlButtons.SetTimeSpeedAlteringAllowed(true);
-				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
+				if (current == State.PlacingBuild) {
+
+				} else {
+					buildingList.Reset();
+					SelectTab(Tab.None);
+					controlButtons.SetTimeSpeedAlteringAllowed(true);
+					if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
+				}
 			}
 			if (old == State.PlacingBuild) {
+				if (current != State.ChoosingBuild) {
+					SelectTab(Tab.None);
+				}
 				buildingList.Reset();
 				buildingList.SetBuildCursor(null);
 				controlButtons.SetTimeSpeedAlteringAllowed(true);
@@ -479,11 +486,6 @@ public partial class UI : Control {
 				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 				TileDeselectedEvent?.Invoke();
 			}
-			if (old == State.AgreementsMenu || old == State.JobsMenu || old == State.TradeMenu || old == State.WorldMenu) {
-				SelectTab(Tab.None);
-				controlButtons.SetTimeSpeedAlteringAllowed(true);
-				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
-			}
 			if (old == State.WarMenu) {
 				SelectTab(Tab.None);
 				controlButtons.SetTimeSpeedAlteringAllowed(true);
@@ -493,7 +495,6 @@ public partial class UI : Control {
 		}
 		if (current == State.ChoosingBuild
 			|| current == State.MapObjectMenu
-			|| current == State.AgreementsMenu
 			|| current == State.JobsMenu
 			|| current == State.TradeMenu
 			|| current == State.WorldMenu

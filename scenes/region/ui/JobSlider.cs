@@ -92,7 +92,6 @@ namespace scenes.region.ui {
 			MoneyLabel.Text = "" + (round ? (int)val : val) + unitSymbol;
 			AddHotkey.Disabled = val >= Slider.MaxValue;
 			RemoveHotkey.Disabled = val <= Slider.MinValue;
-			Slider.SetValueNoSignal(val);
 			//ValueChangedCallback(jobIx, val);
 		}
 
@@ -101,6 +100,7 @@ namespace scenes.region.ui {
 			if (!valueChanged) return;
 			float val = (float)Slider.Value;
 			if (round) val = Mathf.RoundToInt(Slider.Value);
+			Slider.SetValueNoSignal(val);
 			GD.Print($"JobSlider::DragEnded : val {val} last {lastValue}");
 			ValueChangedCallback(jobIx, val - lastValue);
 			lastValue = val;
