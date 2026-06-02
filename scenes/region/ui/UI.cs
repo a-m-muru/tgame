@@ -491,12 +491,20 @@ public partial class UI : Control {
 				warInfoPanel.Undisplay();
 			} else if (old == State.JobsMenu) {
 				SelectTab(Tab.None);
+				controlButtons.SetTimeSpeedAlteringAllowed(true);
+				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 			} else if (old == State.TradeMenu) {
 				SelectTab(Tab.None);
+				controlButtons.SetTimeSpeedAlteringAllowed(true);
+				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 			} else if (old == State.WarMenu) {
 				SelectTab(Tab.None);
+				controlButtons.SetTimeSpeedAlteringAllowed(true);
+				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 			} else if (old == State.WorldMenu) {
 				SelectTab(Tab.None);
+				controlButtons.SetTimeSpeedAlteringAllowed(true);
+				if (GameMan.IsPaused && !wasPausedBefore) GameMan.TogglePause();
 			}
 		}
 		if (current == State.ChoosingBuild
